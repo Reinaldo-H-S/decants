@@ -56,7 +56,8 @@ html:root[data-mode="dark"]{
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;min-height:100%;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums tabular-nums}
 .wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 128px;display:flex;flex-direction:column;gap:26px}
 button,input,textarea,select{font:inherit;color:inherit}
-button{cursor:pointer}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ghost-btn svg{display:block;flex:none}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .lab{font-family:var(--f-body);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
@@ -109,7 +110,7 @@ button{cursor:pointer}
 .art.has-img::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,rgba(10,8,16,.38));pointer-events:none}
 .ring{position:absolute;right:10px;top:10px;width:44px;height:44px;border-radius:50%;z-index:2;
   background:conic-gradient(var(--rc) calc(var(--p)*1%),color-mix(in srgb,var(--ink) 12%,transparent) 0);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.ring span{width:36px;height:36px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--f-mono);font-size:10.5px;font-weight:500}
+.ring span{width:36px;height:36px;border-radius:50%;background:var(--surface);display:grid;place-items:center;line-height:1;padding-top:1px;font-family:var(--f-mono);font-size:10.5px;font-weight:500}
 .card .body{padding:11px 13px 13px;display:flex;flex-direction:column;gap:3px;min-width:0}
 .card .nm{font-weight:700;font-size:15px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em}
 .card .foot{display:flex;justify-content:space-between;gap:6px;margin-top:6px;font-family:var(--f-mono);font-size:12px}
@@ -139,7 +140,7 @@ details.done[open] summary{margin-bottom:12px}
 .note{font-size:12.5px;color:var(--muted);text-align:center}
 
 .fab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);white-space:nowrap;border:0;border-radius:999px;padding:8px 22px 8px 8px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:10px;box-shadow:0 14px 34px -8px rgba(15,10,30,.45);z-index:20}
-.fab .plus{width:36px;height:36px;border-radius:50%;background:conic-gradient(from 200deg,var(--h1),var(--h2),var(--h3),var(--h4),var(--h1));color:var(--hero-ink);display:grid;place-items:center;font-size:20px;font-weight:700}
+.fab .plus{width:36px;height:36px;border-radius:50%;background:conic-gradient(from 200deg,var(--h1),var(--h2),var(--h3),var(--h4),var(--h1));color:var(--hero-ink);display:grid;place-items:center;line-height:0}
 
 /* sheet */
 .scrim{position:fixed;inset:0;background:rgba(12,8,22,.5);backdrop-filter:blur(3px);z-index:40;display:flex;align-items:flex-end;justify-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 10px)}
@@ -150,7 +151,8 @@ details.done[open] summary{margin-bottom:12px}
 .grab{width:42px;height:4px;border-radius:4px;background:var(--line);margin:0 auto}
 .sheet-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .sheet-h h3{font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:-.03em;margin:0;min-width:0;line-height:1.05}
-.x{border:1px solid var(--line);background:var(--surface);width:36px;height:36px;border-radius:50%;font-size:18px;color:var(--muted);flex:none;display:grid;place-items:center}
+.x{border:1px solid var(--line);background:var(--surface);width:36px;height:36px;border-radius:50%;padding:0;color:var(--muted);flex:none;display:grid;place-items:center;line-height:0}
+.x svg,.fab .plus svg{display:block}
 
 /* detail */
 .d-hero{position:relative;border-radius:26px;overflow:hidden}
@@ -158,7 +160,8 @@ details.done[open] summary{margin-bottom:12px}
 .d-hero .art svg.bottle{width:auto;height:84%}
 .close-bar{position:sticky;top:0;z-index:6;height:0;margin-bottom:-16px;display:flex;justify-content:flex-end;pointer-events:none}
 .close-bar .x{pointer-events:auto;transform:translate(-10px,10px)}
-.x.big{width:44px;height:44px;font-size:26px;line-height:1;color:var(--ink);background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.x.big svg{width:22px;height:22px}
+.x.big{width:44px;height:44px;color:var(--ink);background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.25)}
 .sheet-h{position:sticky;top:-10px;z-index:5;background:var(--bg);padding-block:8px;margin-block:-8px}
 .d-hero .ex-tag{top:16px;left:14px}
 .d-name{display:flex;flex-direction:column;gap:4px}
@@ -288,6 +291,9 @@ table.dt{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
 
 <script>
 /* ---------- helpers ---------- */
+// drawn icons: text glyphs like × and + sit off-center differently in every font
+const ICON_X = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>';
+const ICON_PLUS = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>';
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const brl = c => (Math.round(c)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
@@ -502,7 +508,7 @@ function render(){
   `;
   let fab = $('#fab');
   if(!fab){ fab = document.createElement('button'); fab.id='fab'; fab.className='fab'; fab.onclick=()=>openSheet({type:'form'}); document.body.appendChild(fab); }
-  fab.innerHTML = '<span class="plus" aria-hidden="true">+</span>Novo perfume';
+  fab.innerHTML = '<span class="plus" aria-hidden="true">'+ICON_PLUS+'</span>Novo perfume';
   fab.hidden = S.readOnly || loading || !!ui.sheet;
   app.querySelectorAll('[data-pid]').forEach(b=>b.onclick=()=>openSheet({type:'perfume', pid:b.dataset.pid}));
   $('#btn-cfg').onclick = ()=>openSheet({type:'cfg'});
@@ -550,7 +556,7 @@ function closeSheet(fromPop){
 addEventListener('popstate', ()=>{ if(ui.sheet) closeSheet(true); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && ui.sheet) closeSheet(); });
 const sheetKey = s => s.type+':'+(s.pid||'');
-function head(title){ return `<div class="sheet-h"><h3>${title}</h3><button class="x" data-close aria-label="Fechar">×</button></div>`; }
+function head(title){ return `<div class="sheet-h"><h3>${title}</h3><button class="x" data-close aria-label="Fechar">${ICON_X}</button></div>`; }
 function renderSheet(){
   const s = ui.sheet, layer = $('#layer');
   if(layer.dataset.key === sheetKey(s) && s.type!=='perfume') return;
@@ -633,7 +639,7 @@ function perfumeHTML(s){
   const estoqueML = u ? u.valor * st.restante / st.frasco : null;
   const low = st.nivel < .15;
   return `
-  <div class="close-bar"><button class="x big" data-close aria-label="Fechar">×</button></div>
+  <div class="close-bar"><button class="x big" data-close aria-label="Fechar">${ICON_X}</button></div>
   <div class="d-hero">${artHTML(p, st.nivel, p.exemplo?'<span class="ex-tag">exemplo</span>':'')}</div>
   <div class="d-name"><span class="lab">${esc(p.marca||'sem marca')} · ${st.frasco} ml · desde ${fmtShort(p.dataCompra||today())}</span><h3>${esc(p.nome)}</h3></div>
 
@@ -709,7 +715,7 @@ function sparkHTML(hist, pago, cor){
 function vendaHTML(s){
   const st = stats(s.pid), p = st.p;
   s.ml = s.ml || (st.restante>=2 ? 2 : 1); s.qtd = s.qtd || 1; s.tipo = s.tipo || 'venda';
-  return `<div class="sheet-h"><div style="display:flex;gap:12px;align-items:center;min-width:0">${thumbHTML(p, st.nivel)}<div style="min-width:0"><span class="lab">${mlFmt(st.restante)} no frasco</span><h3 style="font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.03em;margin:0;line-height:1.05;overflow-wrap:anywhere">${esc(p.nome)}</h3></div></div><button class="x" data-close aria-label="Fechar">×</button></div>
+  return `<div class="sheet-h"><div style="display:flex;gap:12px;align-items:center;min-width:0">${thumbHTML(p, st.nivel)}<div style="min-width:0"><span class="lab">${mlFmt(st.restante)} no frasco</span><h3 style="font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.03em;margin:0;line-height:1.05;overflow-wrap:anywhere">${esc(p.nome)}</h3></div></div><button class="x" data-close aria-label="Fechar">${ICON_X}</button></div>
   <form id="f-venda" style="display:flex;flex-direction:column;gap:16px" novalidate>
     <div class="seg" role="group" aria-label="Tipo" style="grid-template-columns:1fr 1fr">
       <button type="button" data-tipo="venda" aria-pressed="${s.tipo==='venda'}">Venda</button>
@@ -1262,7 +1268,7 @@ function wireSync(){
 }
 
 /* ---------- instalar + atualização ---------- */
-const APP_VERSION = '2';
+const APP_VERSION = '3';
 let swReg = null, recarregando = false, installEvt = null;
 const instalado = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); installEvt = e; });

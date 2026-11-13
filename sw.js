@@ -2,7 +2,7 @@
 // To ship an update: change the app files, bump VERSION, push. Open apps then show "Atualizar app".
 // Your data lives in localStorage and is never touched by updates.
 // The Fiado app lives on the same site (github.io), so this worker only ever touches caches named "decants-*".
-const VERSION = 'decants-v2';
+const VERSION = 'decants-v3';
 const SHELL = [
   './',
   './index.html',
