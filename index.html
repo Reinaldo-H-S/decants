@@ -142,7 +142,7 @@ details.done[open] summary{margin-bottom:12px}
 .fab .plus{width:36px;height:36px;border-radius:50%;background:conic-gradient(from 200deg,var(--h1),var(--h2),var(--h3),var(--h4),var(--h1));color:var(--hero-ink);display:grid;place-items:center;font-size:20px;font-weight:700}
 
 /* sheet */
-.scrim{position:fixed;inset:0;background:rgba(12,8,22,.5);backdrop-filter:blur(3px);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.scrim{position:fixed;inset:0;background:rgba(12,8,22,.5);backdrop-filter:blur(3px);z-index:40;display:flex;align-items:flex-end;justify-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 10px)}
 .sheet{background:var(--bg);width:100%;max-width:640px;max-height:95%;overflow:auto;border-radius:28px 28px 0 0;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(26px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
 @media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:28px;max-height:92%}}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .25s cubic-bezier(.2,.8,.2,1)}}
@@ -156,7 +156,10 @@ details.done[open] summary{margin-bottom:12px}
 .d-hero{position:relative;border-radius:26px;overflow:hidden}
 .d-hero .art{aspect-ratio:auto;height:min(330px,52vh)}
 .d-hero .art svg.bottle{width:auto;height:84%}
-.d-hero .x{position:absolute;right:12px;top:12px;z-index:3;background:color-mix(in srgb,var(--surface) 80%,transparent);backdrop-filter:blur(8px)}
+.close-bar{position:sticky;top:0;z-index:6;height:0;margin-bottom:-16px;display:flex;justify-content:flex-end;pointer-events:none}
+.close-bar .x{pointer-events:auto;transform:translate(-10px,10px)}
+.x.big{width:44px;height:44px;font-size:26px;line-height:1;color:var(--ink);background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.sheet-h{position:sticky;top:-10px;z-index:5;background:var(--bg);padding-block:8px;margin-block:-8px}
 .d-hero .ex-tag{top:16px;left:14px}
 .d-name{display:flex;flex-direction:column;gap:4px}
 .d-name h3{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,8vw,36px);letter-spacing:-.03em;margin:0;line-height:1;overflow-wrap:anywhere}
@@ -535,8 +538,16 @@ async function removePerfume(pid, quiet){
 }
 
 /* ---------- sheets ---------- */
-function openSheet(s){ ui.sheet = s; $('#layer').dataset.key=''; render(); }
-function closeSheet(){ ui.sheet = null; ui.preview = null; const l = $('#layer'); l.innerHTML=''; l.dataset.key=''; render(); }
+// each open sheet gets a history entry, so the phone's Back button (and back swipe) closes it
+function openSheet(s){
+  if(!ui.sheet){ try{ history.pushState({decSheet:1}, ''); }catch(e){} }
+  ui.sheet = s; $('#layer').dataset.key=''; render();
+}
+function closeSheet(fromPop){
+  if(fromPop!==true && history.state && history.state.decSheet){ history.back(); return; }
+  ui.sheet = null; ui.preview = null; const l = $('#layer'); l.innerHTML=''; l.dataset.key=''; render();
+}
+addEventListener('popstate', ()=>{ if(ui.sheet) closeSheet(true); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && ui.sheet) closeSheet(); });
 const sheetKey = s => s.type+':'+(s.pid||'');
 function head(title){ return `<div class="sheet-h"><h3>${title}</h3><button class="x" data-close aria-label="Fechar">×</button></div>`; }
@@ -622,7 +633,8 @@ function perfumeHTML(s){
   const estoqueML = u ? u.valor * st.restante / st.frasco : null;
   const low = st.nivel < .15;
   return `
-  <div class="d-hero">${artHTML(p, st.nivel, `<button class="x" data-close aria-label="Fechar">×</button>${p.exemplo?'<span class="ex-tag">exemplo</span>':''}`)}</div>
+  <div class="close-bar"><button class="x big" data-close aria-label="Fechar">×</button></div>
+  <div class="d-hero">${artHTML(p, st.nivel, p.exemplo?'<span class="ex-tag">exemplo</span>':'')}</div>
   <div class="d-name"><span class="lab">${esc(p.marca||'sem marca')} · ${st.frasco} ml · desde ${fmtShort(p.dataCompra||today())}</span><h3>${esc(p.nome)}</h3></div>
 
   <div class="scale" style="--c:${look.cor}">
@@ -1250,7 +1262,7 @@ function wireSync(){
 }
 
 /* ---------- instalar + atualização ---------- */
-const APP_VERSION = '1';
+const APP_VERSION = '2';
 let swReg = null, recarregando = false, installEvt = null;
 const instalado = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); installEvt = e; });
